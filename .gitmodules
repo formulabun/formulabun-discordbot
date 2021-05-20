@@ -1,0 +1,3 @@
+[submodule "srb2kartInfoParser"]
+	path = srb2kartInfoParser
+	url = git@github.com:formulabun/srb2kartInfoParser.git
