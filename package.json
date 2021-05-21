@@ -1,0 +1,23 @@
+{
+  "name": "fbun_discordbot",
+  "version": "1.0.0",
+  "description": "discordbot for server status of formula bun",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/formulabun/formulabun-discordbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/formulabun/formulabun-discordbot/issues"
+  },
+  "homepage": "https://github.com/formulabun/formulabun-discordbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^9.0.2"
+  }
+}
