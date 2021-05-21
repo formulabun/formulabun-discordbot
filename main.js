@@ -5,23 +5,35 @@ const env = require('dotenv').config({
 }).parsed;
 const srb2kartinfo = require("./srb2kartInfoParser/srb2kartserverinfo.js").getSrb2Info;
 
-const client = new Discord.Client();
+class FormulaBunBot extends Discord.Client{
 
-const updateStatus = () => {
-  srb2kartinfo(env.SERVER, env.PORT, (server)=>{
-    const stat = `${server.numberofplayers} players race`
-    client.user.setActivity(stat, {type: 'WATCHING'})
-      .catch(console.error);
-  }, ()=>{});
-}
+  constructor() {
+    super();
+    this.players = {};
+    this.on('message', this.respond);
+    this.on('ready', () => {
+      this.updateData();
+      setInterval(this.updateData, parseInt(env.INTERVAL));
+    });
+  }
 
-client.on('message', (message) => {
-  return
-  if(message.author.bot)
-    return
-  if(message.content.trim() === "!players") {
-    srb2kartinfo(env.SERVER, env.PORT, () => {}, (plrs)=>{
-      const players = plrs.playerinfo.map((plrinfo) => {
+  updateData() {
+    srb2kartinfo(env.SERVER, env.PORT, (server)=>{
+      const stat = `${server.numberofplayers} players race`
+      client.user.setActivity(stat, {type: 'WATCHING'})
+        .catch(console.error);
+    }, (plinfo) => {
+      this.players = plinfo
+    });
+  }
+
+  respond(message) {
+    if(message.author.bot)
+      return
+    if(message.content.trim() === "!players") {
+      if (!this.players.playerinfo)
+        return
+      const players = this.players.playerinfo.map((plrinfo) => {
         return plrinfo.name
       });
       let response;
@@ -35,14 +47,12 @@ client.on('message', (message) => {
         response = `${players.join(', ')} and ${last} are online`;
       }
       message.channel.send(response)
-        .then(message => console.log(`sent a message at ${message.createdAt}`))
+        .then(message => console.log(`responded to a message on ${message.createdAt}`))
         .catch(console.error);
-    });
+    }
+
   }
-})
+}
 
-client.on('ready', () => {
-  setInterval(updateStatus, env.INTEVAL);
-});
-
+client = new FormulaBunBot();
 client.login(env.DISCORD_TOKEN);
