@@ -5,6 +5,37 @@ const env = require('dotenv').config({
 }).parsed;
 const srb2kartinfo = require("./srb2kartInfoParser/srb2kartserverinfo.js").getSrb2Info;
 
+let playerinfo = {}
+env.SERVER = "127.0.0.1"
+env.INTERVAL = 1000;
+
+const playerresponse = (players, spectator) => {
+  const joinnames = (names) => {
+    const last = names.pop();
+    const init = names.join(", ")
+    if( !init )
+      return last;
+    return `${init} and ${last}`;
+  }
+
+  let p_response = "";
+  if(players.length === 1)
+    p_response = `${players[0]} is lonely.`;
+  else if(players.length > 1) {
+    p_response = `${joinnames(players)} are racing.`;
+  }
+  let s_response = "";
+  if(spectator.length === 1) {
+    s_response = `${joinnames(spectator)} is watching.`;
+  } else if(spectator.length >= 1) {
+    s_response = `${joinnames(spectator)} are watching.`;
+  }
+  if(!s_response && !p_response) {
+    return "*cricket noises*";
+  }
+  return `${p_response} ${s_response}`.trim();
+}
+
 class FormulaBunBot extends Discord.Client{
 
   constructor() {
@@ -23,29 +54,24 @@ class FormulaBunBot extends Discord.Client{
       client.user.setActivity(stat, {type: 'WATCHING'})
         .catch(console.error);
     }, (plinfo) => {
-      this.players = plinfo
+      playerinfo = plinfo
     });
   }
 
   respond(message) {
+    const playerfiltermap = (players, filter) => {
+      return players.filter(filter).map(p => p.name);
+    }
+
     if(message.author.bot)
       return
     if(message.content.trim() === "!players") {
-      if (!this.players.playerinfo)
+      if (!playerinfo.playerinfo)
         return
-      const players = this.players.playerinfo.map((plrinfo) => {
-        return plrinfo.name
-      });
-      let response;
-      if(players.length == 0)
-        response = `*cricket noises*`
-      else if(players.length == 1)
-        response = `${players[0]} is lonely`;
-      else {
-        last = players.pop();
-        names = players.join(", ");
-        response = `${players.join(', ')} and ${last} are online`;
-      }
+      const players = playerfiltermap(playerinfo.playerinfo, p=>!p.spectator);
+      const spectators = playerfiltermap(playerinfo.playerinfo, p=>p.spectator);
+      const response = playerresponse(players, spectators);
+
       message.channel.send(response)
         .then(message => console.log(`responded to a message on ${message.createdAt}`))
         .catch(console.error);
