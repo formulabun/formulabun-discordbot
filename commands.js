@@ -49,7 +49,10 @@ exports["!join"] = {
 OR
 Create a \`kartexec.cgf\` file in your srb2kart folder and add the next line:
 > alias joinserver "connect ${env.SERVER}"
-Join the server by opening the command line with the \\\` key and entering \`joinserver\``
+Join the server by opening the command line with the \\\` key and entering \`joinserver\`
+OR
+Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${env.SERVER}\`
+`
 }
 
 exports["!help"] = {
