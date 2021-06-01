@@ -52,6 +52,11 @@ class FormulaBunBot extends Client{
       .catch(console.error);
     }, (plinfo) => {
       server.playerinfo = plinfo
+    }, (err) => {
+      client.user.setActivity("for a heartbeat", {type: 'LISTENING'})
+      .then(() => {
+        client.user.setStatus("dnd")
+      });
     });
   }
 
