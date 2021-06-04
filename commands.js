@@ -43,7 +43,7 @@ exports["players"] = {
   }
 }
 
-exports["join"] = {
+exports["joinfbun"] = {
   descr: "explain how to join this epic server",
   respond: () => {
   return {
