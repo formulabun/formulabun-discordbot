@@ -49,8 +49,8 @@ exports["joinfbun"] = {
   return {
     embed: [
       new MessageEmbed()
-        //.setColor()
-        .setTitle("Joining this kart server")
+        .setColor("#ffcece")
+        .setTitle("Joining Formula bun")
         .setURL(`http://${env.SERVER}`)
         .addField("Option one:", `type \`${env.SERVER}\` into the **join a game** field`)
         .addField("Option two:",
