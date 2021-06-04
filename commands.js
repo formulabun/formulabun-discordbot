@@ -52,6 +52,7 @@ exports["joinfbun"] = {
         .setColor("#ffcece")
         .setTitle("Joining Formula bun")
         .setURL(`http://${env.SERVER}`)
+	.setImage("http://formulabun.club/fastbun.png")
         .addField("Option one:", `type \`${env.SERVER}\` into the **join a game** field`)
         .addField("Option two:",
 `create a \`kartexec.cfg\` file in your srb2kart folder and add the following line:
