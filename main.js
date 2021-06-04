@@ -27,12 +27,13 @@ class FormulaBunBot extends Client{
     for (let c in commands) {
       if (commands.hasOwnProperty(c)) {
         this.api.applications(this.user.id)
-          //.guilds(env.TEST_GUILD) // might need to use `npm test` `npm deploy` for this
+          .guilds(env.TEST_GUILD) // might need to use `npm test` `npm deploy` for this
           .commands.post(
           {data: {
             name: c,
             description: commands[c].descr,
           }})
+        .then(() => {console.log(`registered ${c}`)})
         .catch(console.error);
       }
     }
@@ -74,11 +75,11 @@ class FormulaBunBot extends Client{
         data: {
           type: 4,
           data: {
-            content: response
+            content: response.content,
+            embeds: response.embed,
           }
         }
       })
-        .catch(console.error);
     }
   }
 }

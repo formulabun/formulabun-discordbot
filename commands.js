@@ -2,6 +2,7 @@ const path = require('path');
 const env = require('dotenv').config({
   path: path.join(__dirname, ".env"),
 }).parsed;
+const {MessageEmbed} = require('discord.js');
 
 const playerresponse = (players, spectator) => {
   const joinnames = (names) => {
@@ -38,19 +39,25 @@ exports["players"] = {
     }
     const players = playerfiltermap(server.playerinfo.playerinfo, p=>!p.spectator);
     const spectators = playerfiltermap(server.playerinfo.playerinfo, p=>p.spectator);
-    return playerresponse(players, spectators);
+    return {content: playerresponse(players, spectators)};
   }
 }
 
 exports["join"] = {
   descr: "explain how to join this epic server",
-  respond: () => 
-`Join through the regular multiplayer menu by typing "${env.SERVER}" in the ip field
-OR
-Create a \`kartexec.cgf\` file in your srb2kart folder and add the next line:
+  respond: () => {
+  return {
+    embed: [
+      new MessageEmbed()
+        //.setColor()
+        .setTitle("Joining this kart server")
+        .setURL(`http://${env.SERVER}`)
+        .addField("Option one:", `type \`${env.SERVER}\` into the **join a game** field`)
+        .addField("Option two:",
+`create a \`kartexec.cfg\` file in your srb2kart folder and add the following line:
 > alias joinserver "connect ${env.SERVER}"
-Join the server by opening the command line with the \\\` key and entering \`joinserver\`
-OR
-Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${env.SERVER}\`
-`
-}
+and join the server by opening the console with using the \\\` key and enter \`joinserver\`
+`)
+        .addField("Option three:", `Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${env.SERVER}\``)
+    ]
+}}}
