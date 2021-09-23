@@ -46,18 +46,28 @@ const newfiles = process.argv[3];
 
 difference(oldfiles, newfiles).then(({removed, added}) => {
   if( removed.length === 0 && added.length === 0) return '';
-  const formatMap = (file) => `  • ${file}`;
-  removed = removed.map(formatMap).join('\n');
-  added = added.map(formatMap).join('\n');
-  return (
-`**The server addons have been updated!**
-added:
-${added}
+  var text = `**The server addons have been updated!**\n`;
 
-removed:
-${removed}`
-  )
-}).then(sendMsg
-).then(() => {
+  const formatMap = (file) => `  • ${file}`;
+  if(added.length !== 0) {
+    text += (
+`added:
+${added.map(formatMap).join('\n')}\n`
+    )
+  }
+
+  if(removed.length !== 0) {
+    text += (
+`removed:
+${removed.map(formatMap).join('\n')}`
+    )
+  }
+
+  console.log(text)
+  return text; 
+}).then((msg) => {
+  if(!msg) return
+  return sendMsg(msg)
+}).then(() => {
   process.exit(0);
 });
