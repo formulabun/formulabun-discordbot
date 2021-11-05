@@ -1,25 +1,6 @@
 #!/usr/bin/node
-const path = require('path');
 const { readFile } = require('fs/promises');
-const {Client} = require('discord.js');
-const env = require('dotenv').config({
-  path: path.join(__dirname, ".env"),
-}).parsed;
-
-function sendMsg(msg) {
-  const client = new Client();
-  return client.login(env.DISCORD_TOKEN).then(() =>
-    client.channels.fetch(env.UPDATE_CHANNEL)
-  ).then((channel) => {
-    if (!channel.isText()) throw new Error('not a text channel')
-    return channel.send(msg);
-  }).then(message => {
-    console.log(`message send ${message}`);
-  }).catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
-}
+const {sendMsg, env} = require("./functions.js");
 
 function difference(oldfile, newfile) {
 
@@ -67,7 +48,7 @@ ${removed.map(formatMap).join('\n')}`
   return text; 
 }).then((msg) => {
   if(!msg) return
-  return sendMsg(msg)
+  return sendMsg(msg, env.UPDATE_CHANNEL)
 }).then(() => {
   process.exit(0);
 });
