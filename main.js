@@ -27,7 +27,7 @@ class FormulaBunBot extends Client{
     for (let c in commands) {
       if (commands.hasOwnProperty(c)) {
         this.api.applications(this.user.id)
-          .guilds(env.TEST_GUILD) // might need to use `npm test` `npm deploy` for this
+          //.guilds(env.TEST_GUILD) // might need to use `npm test` `npm deploy` for this
           .commands.post(
           {data: {
             name: c,
