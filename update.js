@@ -1,6 +1,7 @@
 #!/usr/bin/node
 const { readFile } = require('fs/promises');
 const {sendMsg, env} = require("./functions.js");
+const { getUpdateChannels } = require('./db.js');
 
 function difference(oldfile, newfile) {
 
@@ -44,11 +45,11 @@ ${removed.map(formatMap).join('\n')}`
     )
   }
 
-  console.log(text)
+  //console.log(text)
   return text; 
 }).then((msg) => {
   if(!msg) return
-  return sendMsg(msg, env.UPDATE_CHANNEL)
-}).then(() => {
-  process.exit(0);
+  return getUpdateChannels().then(channels => 
+    Promise.all(channels.map(c => sendMsg(msg, c.channelID.toString())))
+  );
 });

@@ -13,6 +13,7 @@ function sendMsg(msg, channel) {
     return channel.send(msg);
   }).then(message => {
     console.log(`message send ${message}`);
+    client.destroy();
   }).catch((e) => {
     console.error(e);
     process.exit(1);

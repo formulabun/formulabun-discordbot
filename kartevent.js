@@ -1,5 +1,6 @@
 #!/usr/bin/node
 const { sendMsg, env} = require("./functions.js");
+const {getEventChannels} = require('./db.js');
 const random = require("random");
 
 const capitalize = (string) => string[0].toUpperCase() + string.substring(1).toLowerCase();
@@ -29,10 +30,15 @@ const messages = [
   `Watch out, a wild ${kartevent} appeared!`,
   `You want to play ${kartevent} and you know it.`,
   `Come play ${kartevent} or I won't like you anymore.`,
-  `You probably didn't want to play ${kartevent}. Too bad.`
+  `You probably didn't want to play ${kartevent}. Too bad.`,
+  `I know we've already had ${kartevent}, but this time it'll be fun I swear.`
 ]
 
 const index = random.integer(0, messages.length-1)
 const msg = messages[index];
 
-sendMsg(msg, env.EVENT_CHANNEL).then(() => process.exit(0));
+getEventChannels().then( channels => 
+  channels.forEach(c => {
+    sendMsg(msg, c.channelID)
+  })
+);
