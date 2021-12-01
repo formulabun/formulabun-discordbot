@@ -1,18 +1,18 @@
-const sqlite3 = require('sqlite3');
+const Database = require('better-sqlite3');
 
 function getDB() {
-  return new sqlite3.Database('./db.sqlite3');
+  return new Database('./db.sqlite3');
 }
 
 function initDB() {
   const db = getDB();
-  db.run(`
+  db.exec(`
 CREATE TABLE IF NOT EXISTS
   EventChannels (
     channelID PRIMARY KEY
   )
   `);
-  db.run(`
+  db.exec(`
 CREATE TABLE IF NOT EXISTS
   UpdateChannels (
     channelID PRIMARY KEY
@@ -24,12 +24,11 @@ CREATE TABLE IF NOT EXISTS
 function _getChannels(column) {
   if(column !== 'UpdateChannels' && column !== 'EventChannels') throw new Error('incorrect column name');
   const db = getDB();
-  return new Promise((res, rej) => db.all(`
+  const rows = db.prepare(`
 SELECT * FROM ${column}; 
-  `, function(err, rows) {
-    if (err) throw rej(err);
-    return res(rows);
-  }).close());
+  `).all();
+  db.close();
+  return rows;
 }
 
 function getEventChannels() {
@@ -44,9 +43,10 @@ function _addChannel(column, channelId) {
   if(column !== 'UpdateChannels' && column !== 'EventChannels') throw new Error('incorrect column name');
   if(typeof channelId != 'string') throw new Error('channelId must be a string');
   const db = getDB();
-  db.run(`
+  db.prepare(`
 INSERT OR IGNORE INTO ${column} VALUES (?)
-  `, channelId.toString()).close();
+  `).run(channelId.toString());
+  db.close();
 }
 
 function addEventChannel(channelId) {

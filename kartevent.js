@@ -37,6 +37,5 @@ const messages = [
 const index = random.integer(0, messages.length-1)
 const msg = messages[index];
 
-getEventChannels().then( channels =>  {
-  sendMsgToMultiple(msg, channels.map(c => c.channelID))
-});
+const channels = getEventChannels();
+sendMsgToMultiple(msg, channels.map(c => c.channelID));
