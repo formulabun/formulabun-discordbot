@@ -21,6 +21,7 @@ class FormulaBunBot extends Client{
       this.updateData();
       setInterval(this.updateData, parseInt(env.INTERVAL));
     });
+
   }
   
   registercommands() {
