@@ -49,7 +49,6 @@ ${removed.map(formatMap).join('\n')}`
   return text; 
 }).then((msg) => {
   if(!msg) return
-  return getUpdateChannels().then(channels => 
-    sendMsgToMultiple(msg, channels.map(c => c.channelID))
-  );
+  const channels = getUpdateChannels();
+  sendMsgToMultiple(msg, channels.map(c => c.channelID))
 });

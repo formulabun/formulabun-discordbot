@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/formulabun/formulabun-discordbot#readme",
   "dependencies": {
+    "better-sqlite3": "^7.4.5",
     "discord.js": "^12.5.3",
     "dotenv": "^9.0.2",
     "fs": "0.0.1-security",
-    "random": "^3.0.6",
-    "sqlite3": "^5.0.2"
+    "random": "^3.0.6"
   }
 }
