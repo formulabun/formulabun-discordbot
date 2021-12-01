@@ -1,7 +1,7 @@
 const Database = require('better-sqlite3');
 
 function getDB() {
-  return new Database('./db.sqlite3');
+  return new Database(`${__dirname}/db.sqlite3`);
 }
 
 function initDB() {
