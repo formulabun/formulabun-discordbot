@@ -1,6 +1,6 @@
 #!/usr/bin/node
 const { readFile } = require('fs/promises');
-const {sendMsg, env} = require("./functions.js");
+const {sendMsgToMultiple, env} = require("./functions.js");
 const { getUpdateChannels } = require('./db.js');
 
 function difference(oldfile, newfile) {
@@ -50,6 +50,6 @@ ${removed.map(formatMap).join('\n')}`
 }).then((msg) => {
   if(!msg) return
   return getUpdateChannels().then(channels => 
-    Promise.all(channels.map(c => sendMsg(msg, c.channelID.toString())))
+    sendMsgToMultiple(msg, channels.map(c => c.channelID))
   );
 });

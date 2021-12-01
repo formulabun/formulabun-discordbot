@@ -1,5 +1,5 @@
 #!/usr/bin/node
-const { sendMsg, env} = require("./functions.js");
+const { sendMsgToMultiple, env} = require("./functions.js");
 const {getEventChannels} = require('./db.js');
 const random = require("random");
 
@@ -37,8 +37,6 @@ const messages = [
 const index = random.integer(0, messages.length-1)
 const msg = messages[index];
 
-getEventChannels().then( channels => 
-  channels.forEach(c => {
-    sendMsg(msg, c.channelID)
-  })
-);
+getEventChannels().then( channels =>  {
+  sendMsgToMultiple(msg, channels.map(c => c.channelID))
+});
