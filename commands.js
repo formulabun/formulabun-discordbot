@@ -1,8 +1,7 @@
-const path = require('path');
-const env = require('dotenv').config({
-  path: path.join(__dirname, ".env"),
-}).parsed;
-const {MessageEmbed} = require('discord.js');
+import path from 'path';
+import {config} from 'dotenv';
+const env = config().parsed;
+import {MessageEmbed} from 'discord.js';
 
 const playerresponse = (players, spectator) => {
   const joinnames = (names) => {
@@ -31,7 +30,7 @@ const playerresponse = (players, spectator) => {
   return `${p_response} ${s_response}`.trim();
 }
 
-exports["players"] = {
+const players = {
   descr: "show current players in the server",
   respond: (server) => {
     const playerfiltermap = (players, filter) => {
@@ -43,7 +42,7 @@ exports["players"] = {
   }
 }
 
-exports["joinfbun"] = {
+const joinfbun = {
   descr: "explain how to join this epic server",
   respond: () => {
   return {
@@ -62,3 +61,5 @@ and join the server by opening the console with using the \\\` key and enter \`j
         .addField("Option three:", `Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${env.SERVER}\``)
     ]
 }}}
+
+export default {players, joinfbun};

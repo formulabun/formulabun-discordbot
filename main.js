@@ -1,10 +1,9 @@
-const path = require('path');
-const {Client, Intents} = require('discord.js');
-const env = require('dotenv').config({
-  path: path.join(__dirname, ".env"),
-}).parsed;
-const commands = require("./commands.js");
-const srb2kartinfo = require("./srb2kartInfoParser/srb2kartserverinfo.js").getSrb2Info;
+import path from 'path';
+import {Client, Intents} from 'discord.js';
+import {config} from 'dotenv';
+const env = config().parsed;
+import commands from './commands.js';
+import {getSrb2Info} from 'srb2kartjs';
 
 let server = {}
 
@@ -41,7 +40,7 @@ class FormulaBunBot extends Client{
   }
 
   updateData() {
-    srb2kartinfo(env.SERVER, env.PORT, (serverinfo)=>{
+    getSrb2Info(env.SERVER, env.PORT, (serverinfo)=>{
       server.serverinfo = serverinfo;
       const stat = `${serverinfo.numberofplayers} players race`
       client.user.setActivity(stat, {type: 'WATCHING'})
@@ -85,5 +84,5 @@ class FormulaBunBot extends Client{
   }
 }
 
-client = new FormulaBunBot({intents: []});
+let client = new FormulaBunBot({intents: []});
 client.login(env.DISCORD_TOKEN);
