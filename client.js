@@ -78,7 +78,6 @@ export default class FormulaBunBot extends Client {
     const command = interaction.data.name;
 
     if (!this.server.serverinfo || !this.server.playerinfo) {
-      console.log("no info");
       return;
     }
 

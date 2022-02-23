@@ -1,7 +1,7 @@
 #!/usr/bin/node
-const { readFile } = require("fs/promises");
-const { sendMsgToMultiple, env } = require("./functions.js");
-const { getUpdateChannels } = require("./db.js");
+import { readFile } from "fs/promises";
+import { sendMsgToMultiple, env } from "./functions.js";
+import { getUpdateChannels } from "./db.js";
 
 function difference(oldfile, newfile) {
   return Promise.all([readFile(oldfiles), readFile(newfiles)])
@@ -41,7 +41,6 @@ ${added.map(formatMap).join("\n")}\n`;
 ${removed.map(formatMap).join("\n")}`;
     }
 
-    //console.log(text)
     return text;
   })
   .then((msg) => {
