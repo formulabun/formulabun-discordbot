@@ -1,8 +1,7 @@
-const { Client } = require("discord.js");
-const path = require("path");
-const env = require("dotenv").config({
-  path: path.join(__dirname, ".env"),
-}).parsed;
+import { Client } from "discord.js";
+import path from "path";
+import {config} from 'dotenv';
+const env = config().parsed;
 
 function _sendMsg(client, msg, channel) {
   return client.channels
@@ -36,7 +35,7 @@ function sendMsg(msg, channel) {
     .then(() => client.destroy());
 }
 
-module.exports = {
+export {
   sendMsg,
   sendMsgToMultiple,
   env,

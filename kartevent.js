@@ -1,7 +1,7 @@
 #!/usr/bin/node
-const { sendMsgToMultiple, env } = require("./functions.js");
-const { getEventChannels } = require("./db.js");
-const random = require("random");
+import { sendMsgToMultiple, env } from "./functions.js";
+import { getEventChannels } from "./db.js";
+import random from "random";
 
 const capitalize = (string) =>
   string[0].toUpperCase() + string.substring(1).toLowerCase();

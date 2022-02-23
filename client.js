@@ -1,7 +1,9 @@
 import path from "path";
 import { Client, Intents } from "discord.js";
 import { config } from "dotenv";
-const env = config().parsed;
+const {
+  TEST_GUILD
+} = config().parsed;
 import commands from "./commands.js";
 
 export default class FormulaBunBot extends Client {
@@ -25,7 +27,7 @@ export default class FormulaBunBot extends Client {
 
         switch (process.env.DISCORDBOT_ENV) {
           case "test":
-            guild = application.guilds(env.TEST_GUILD);
+            guild = application.guilds(TEST_GUILD);
             break;
           case "deploy":
             guild = application;

@@ -1,6 +1,8 @@
 import path from "path";
 import { config } from "dotenv";
-const env = config().parsed;
+const {
+  SERVER
+}= config().parsed;
 import { MessageEmbed } from "discord.js";
 
 const playerresponse = (players, spectator) => {
@@ -54,21 +56,21 @@ const join = {
         new MessageEmbed()
           //.setColor()
           .setTitle("Joining this kart server")
-          .setURL(`http://${env.SERVER}`)
+          .setURL(`http://${SERVER}`)
           .addField(
             "Option one:",
-            `type \`${env.SERVER}\` into the **join a game** field`
+            `type \`${SERVER}\` into the **join a game** field`
           )
           .addField(
             "Option two:",
             `create a \`kartexec.cfg\` file in your srb2kart folder and add the following line:
-> alias joinserver "connect ${env.SERVER}"
+> alias joinserver "connect ${SERVER}"
 and join the server by opening the console with using the \\\` key and enter \`joinserver\`
 `
           )
           .addField(
             "Option three:",
-            `Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${env.SERVER}\``
+            `Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${SERVER}\``
           ),
       ],
     };

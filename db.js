@@ -1,7 +1,7 @@
-const Database = require("better-sqlite3");
+import Database from "better-sqlite3";
 
 function getDB() {
-  return new Database(`${__dirname}/db.sqlite3`);
+  return new Database(`./db.sqlite3`);
 }
 
 function initDB() {
@@ -66,7 +66,9 @@ function addUpdateChannel(channelId) {
   _addChannel("UpdateChannels", channelId);
 }
 
-module.exports = {
+export {
+  addEventChannel,
+  addUpdateChannel,
   getEventChannels,
   getUpdateChannels,
 };

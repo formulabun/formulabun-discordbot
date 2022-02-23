@@ -1,15 +1,20 @@
 import FormulaBunBot from "./client.js";
 import { config } from "dotenv";
-const env = config().parsed;
+const {
+  DISCORD_TOKEN,
+  SERVER,
+  PORT,
+  INTERVAL
+}= config().parsed;
 import { getSrb2Info } from "srb2kartjs";
 
 let client = new FormulaBunBot({ intents: [] });
-client.login(env.DISCORD_TOKEN);
+client.login(DISCORD_TOKEN);
 
 setInterval(() => {
   getSrb2Info(
-    env.SERVER,
-    env.PORT,
+    SERVER,
+    PORT,
     (info) => {
       client.serverinfo = info;
     },
@@ -20,6 +25,6 @@ setInterval(() => {
       client.error = error;
     }
   );
-}, parseInt(env.INTERVAL));
+}, parseInt(INTERVAL));
 
 process.on("exit", () => client.detroy());
