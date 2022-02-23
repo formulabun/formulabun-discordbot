@@ -1,8 +1,5 @@
 import prompt from "prompt";
-import {
-  addEventChannel,
-  addUpdateChannel,
-} from "./db.js";
+import { addEventChannel, addUpdateChannel } from "./db.js";
 
 const schema = {
   properties: {
@@ -15,20 +12,20 @@ const schema = {
       description: "ChannelId",
       type: "string",
       required: true,
-    }
-  }
-}
+    },
+  },
+};
 prompt.start();
 
 prompt.get(schema, (err, result) => {
   if (err) return;
-  switch(result.typeOf) {
+  switch (result.typeOf) {
     case 1:
       addEventChannel(result.channel);
-      break
+      break;
     case 2:
       addUpdateChannel(result.channel);
-      break
+      break;
     default:
       console.error("invalid channel type");
   }

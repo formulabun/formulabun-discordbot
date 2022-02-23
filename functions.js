@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
 import path from "path";
-import {config} from 'dotenv';
+import { config } from "dotenv";
 const env = config().parsed;
 
 function _sendMsg(client, msg, channel) {
@@ -35,8 +35,4 @@ function sendMsg(msg, channel) {
     .then(() => client.destroy());
 }
 
-export {
-  sendMsg,
-  sendMsgToMultiple,
-  env,
-};
+export { sendMsg, sendMsgToMultiple, env };

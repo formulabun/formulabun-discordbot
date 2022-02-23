@@ -1,8 +1,6 @@
 import path from "path";
 import { config } from "dotenv";
-const {
-  SERVER
-}= config().parsed;
+const { SERVER } = config().parsed;
 import { MessageEmbed } from "discord.js";
 
 const playerresponse = (players, spectator) => {

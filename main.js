@@ -1,11 +1,6 @@
 import FormulaBunBot from "./client.js";
 import { config } from "dotenv";
-const {
-  DISCORD_TOKEN,
-  SERVER,
-  PORT,
-  INTERVAL
-}= config().parsed;
+const { DISCORD_TOKEN, SERVER, PORT, INTERVAL } = config().parsed;
 import { getSrb2Info } from "srb2kartjs";
 
 let client = new FormulaBunBot({ intents: [] });

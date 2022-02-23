@@ -1,9 +1,7 @@
 import path from "path";
 import { Client, Intents } from "discord.js";
 import { config } from "dotenv";
-const {
-  TEST_GUILD
-} = config().parsed;
+const { TEST_GUILD } = config().parsed;
 import commands from "./commands.js";
 
 export default class FormulaBunBot extends Client {
