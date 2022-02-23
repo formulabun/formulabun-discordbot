@@ -5,7 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "node main.js"
+    "test": "node main.js",
+    "lint": "prettier --write *.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "discord.js": "^12.5.3",
     "dotenv": "^9.0.2",
     "fs": "0.0.1-security",
+    "prettier": "^2.5.1",
     "random": "^3.0.6",
     "sqlite3": "^5.0.2",
     "srb2kartjs": "^2.1.2"

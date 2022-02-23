@@ -1,9 +1,10 @@
 #!/usr/bin/node
-const { sendMsgToMultiple, env} = require("./functions.js");
-const {getEventChannels} = require('./db.js');
+const { sendMsgToMultiple, env } = require("./functions.js");
+const { getEventChannels } = require("./db.js");
 const random = require("random");
 
-const capitalize = (string) => string[0].toUpperCase() + string.substring(1).toLowerCase();
+const capitalize = (string) =>
+  string[0].toUpperCase() + string.substring(1).toLowerCase();
 
 const kartevent = process.argv[2];
 
@@ -31,11 +32,14 @@ const messages = [
   `You want to play ${kartevent} and you know it.`,
   `Come play ${kartevent} or I won't like you anymore.`,
   `You probably didn't want to play ${kartevent}. Too bad.`,
-  `I know we've already had ${kartevent}, but this time it'll be fun I swear.`
-]
+  `I know we've already had ${kartevent}, but this time it'll be fun I swear.`,
+];
 
-const index = random.integer(0, messages.length-1)
+const index = random.integer(0, messages.length - 1);
 const msg = messages[index];
 
 const channels = getEventChannels();
-sendMsgToMultiple(msg, channels.map(c => c.channelID));
+sendMsgToMultiple(
+  msg,
+  channels.map((c) => c.channelID)
+);
