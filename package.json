@@ -28,7 +28,7 @@
     "fs": "0.0.1-security",
     "prettier": "^2.5.1",
     "random": "^3.0.6",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^4.2.0",
     "srb2kartjs": "^2.1.2"
   }
 }
