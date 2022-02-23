@@ -1,5 +1,5 @@
 import prompt from "prompt";
-import { addEventChannel, addUpdateChannel } from "./db.js";
+import { initDB, addEventChannel, addUpdateChannel } from "./db.js";
 
 const schema = {
   properties: {
@@ -15,6 +15,8 @@ const schema = {
     },
   },
 };
+
+initDB();
 prompt.start();
 
 prompt.get(schema, (err, result) => {
