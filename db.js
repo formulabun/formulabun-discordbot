@@ -67,6 +67,7 @@ function addUpdateChannel(channelId) {
 }
 
 export {
+  initDB,
   addEventChannel,
   addUpdateChannel,
   getEventChannels,
