@@ -5,7 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "node main.js",
+    "deploy": "cross-env DISCORDBOT_ENV=deploy node main.js",
+    "test": "cross-env DISCORDBOT_ENV=test node main.js",
     "lint": "prettier --write *.js"
   },
   "repository": {
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/formulabun/formulabun-discordbot#readme",
   "dependencies": {
     "better-sqlite3": "^7.4.5",
+    "cross-env": "^7.0.3",
     "discord.js": "^12.5.3",
     "dotenv": "^9.0.2",
     "fs": "0.0.1-security",

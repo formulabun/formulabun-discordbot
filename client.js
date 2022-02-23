@@ -20,10 +20,22 @@ export default class FormulaBunBot extends Client {
   registercommands() {
     for (let c in commands) {
       if (commands.hasOwnProperty(c)) {
-        this.api
-          .applications(this.user.id)
-          .guilds(env.TEST_GUILD) // might need to use `npm test` `npm deploy` for this
-          .commands.post({
+        let guild,
+          application = this.api.applications(this.user.id);
+
+        switch (process.env.DISCORDBOT_ENV) {
+          case "test":
+            guild = application.guilds(env.TEST_GUILD);
+            break;
+          case "deploy":
+            guild = application;
+            break;
+          default:
+            throw "DISCORDBOT_ENV not set, possible values: test, deploy.";
+        }
+
+        guild.commands
+          .post({
             data: {
               name: c,
               description: commands[c].descr,
