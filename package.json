@@ -5,7 +5,10 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "node main.js"
+    "deploy": "cross-env DISCORDBOT_ENV=deploy node main.js",
+    "test": "cross-env DISCORDBOT_ENV=test node main.js",
+    "lint": "prettier --write *.js",
+    "linttest": "prettier -c *.js"
   },
   "repository": {
     "type": "git",
@@ -19,11 +22,13 @@
   "homepage": "https://github.com/formulabun/formulabun-discordbot#readme",
   "dependencies": {
     "better-sqlite3": "^7.4.5",
+    "cross-env": "^7.0.3",
     "discord.js": "^12.5.3",
     "dotenv": "^9.0.2",
     "fs": "0.0.1-security",
+    "prettier": "^2.5.1",
     "random": "^3.0.6",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^4.2.0",
     "srb2kartjs": "^2.1.2"
   }
 }

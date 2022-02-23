@@ -1,64 +1,78 @@
-import path from 'path';
-import {config} from 'dotenv';
-const env = config().parsed;
-import {MessageEmbed} from 'discord.js';
+import path from "path";
+import { config } from "dotenv";
+const { SERVER } = config().parsed;
+import { MessageEmbed } from "discord.js";
 
 const playerresponse = (players, spectator) => {
   const joinnames = (names) => {
     const last = names.pop();
-    const init = names.join(", ")
-    if( !init )
-      return last;
+    const init = names.join(", ");
+    if (!init) return last;
     return `${init} and ${last}`;
-  }
+  };
 
   let p_response = "";
-  if(players.length === 1)
-    p_response = `${players[0]} is lonely.`;
-  else if(players.length > 1) {
+  if (players.length === 1) p_response = `${players[0]} is lonely.`;
+  else if (players.length > 1) {
     p_response = `${joinnames(players)} are racing.`;
   }
   let s_response = "";
-  if(spectator.length === 1) {
+  if (spectator.length === 1) {
     s_response = `${joinnames(spectator)} is watching.`;
-  } else if(spectator.length >= 1) {
+  } else if (spectator.length >= 1) {
     s_response = `${joinnames(spectator)} are watching.`;
   }
-  if(!s_response && !p_response) {
+  if (!s_response && !p_response) {
     return "*cricket noises*";
   }
   return `${p_response} ${s_response}`.trim();
-}
+};
 
 const players = {
   descr: "show current players in the server",
   respond: (server) => {
     const playerfiltermap = (players, filter) => {
-      return players.filter(filter).map(p => p.name);
-    }
-    const players = playerfiltermap(server.playerinfo.playerinfo, p=>!p.spectator);
-    const spectators = playerfiltermap(server.playerinfo.playerinfo, p=>p.spectator);
-    return {content: playerresponse(players, spectators)};
-  }
-}
+      return players.filter(filter).map((p) => p.name);
+    };
+    const players = playerfiltermap(
+      server.playerinfo.playerinfo,
+      (p) => !p.spectator
+    );
+    const spectators = playerfiltermap(
+      server.playerinfo.playerinfo,
+      (p) => p.spectator
+    );
+    return { content: playerresponse(players, spectators) };
+  },
+};
 
 const join = {
   descr: "explain how to join this epic server",
   respond: () => {
-  return {
-    embed: [
-      new MessageEmbed()
-        //.setColor()
-        .setTitle("Joining this kart server")
-        .setURL(`http://${env.SERVER}`)
-        .addField("Option one:", `type \`${env.SERVER}\` into the **join a game** field`)
-        .addField("Option two:",
-`create a \`kartexec.cfg\` file in your srb2kart folder and add the following line:
-> alias joinserver "connect ${env.SERVER}"
+    return {
+      embed: [
+        new MessageEmbed()
+          //.setColor()
+          .setTitle("Joining this kart server")
+          .setURL(`http://${SERVER}`)
+          .addField(
+            "Option one:",
+            `type \`${SERVER}\` into the **join a game** field`
+          )
+          .addField(
+            "Option two:",
+            `create a \`kartexec.cfg\` file in your srb2kart folder and add the following line:
+> alias joinserver "connect ${SERVER}"
 and join the server by opening the console with using the \\\` key and enter \`joinserver\`
-`)
-        .addField("Option three:", `Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${env.SERVER}\``)
-    ]
-}}}
+`
+          )
+          .addField(
+            "Option three:",
+            `Copy paste the following url into your browser (when supported on your device) \`srb2kart://ip/${SERVER}\``
+          ),
+      ],
+    };
+  },
+};
 
-export default {players, join};
+export default { players, join };
