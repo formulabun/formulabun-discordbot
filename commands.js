@@ -14,7 +14,7 @@ const playerresponse = (players, spectator) => {
 
   let p_response = "";
   if(players.length === 1)
-    p_response = `${players[0]} is lonely.`;
+    p_response = `${players[0]} needs a friend.`;
   else if(players.length > 1) {
     p_response = `${joinnames(players)} are racing.`;
   }
