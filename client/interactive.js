@@ -1,10 +1,10 @@
-import path from "path";
-import { Client, Intents } from "discord.js";
+import { FormulaBunBotBase } from './base.js';
 import { config } from "dotenv";
-const { TEST_GUILD } = config().parsed;
 import commands from "./commands.js";
+const env = config().parsed;
+const { TEST_GUILD } = config().parsed;
 
-export default class FormulaBunBot extends Client {
+export class FormulaBunBotInteracive extends FormulaBunBotBase {
   constructor(param) {
     super(param);
     this.players = {};
@@ -95,4 +95,10 @@ export default class FormulaBunBot extends Client {
       });
     }
   }
+}
+
+export default async function login() {
+  const client = new FormulaBunBotInteracive();
+  await client.login(env.DISCORD_TOKEN);
+  return client;
 }
