@@ -1,10 +1,10 @@
-import FormulaBunBot from "./client.js";
+import login from "./client/interactive.js";
+//import login from "./client/base.js";
 import { config } from "dotenv";
 const { DISCORD_TOKEN, SERVER, PORT, INTERVAL } = config().parsed;
 import { getSrb2Info } from "srb2kartjs";
 
-let client = new FormulaBunBot({ intents: [] });
-client.login(DISCORD_TOKEN);
+const client = await login()
 
 setInterval(() => {
   getSrb2Info(
