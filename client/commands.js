@@ -11,7 +11,7 @@ const sanitizeName = (name) => {
 
 const playerresponse = (players, spectator) => {
   const joinnames = (names) => {
-    const last = names.pop();
+    const last = sanitizeName(names.pop());
     const init = names.join(", ");
     if (!init) return last;
     return `${init} and ${last}`;
