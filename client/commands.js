@@ -3,6 +3,12 @@ import { config } from "dotenv";
 const { SERVER } = config().parsed;
 import { MessageEmbed } from "discord.js";
 
+const sanitizeName = (name) => {
+  // Insert a zero width space after @ or !
+  return name.replace(/\@/g, "@\u200B")
+             .replace(/\#/g, "#\u200B");
+}
+
 const playerresponse = (players, spectator) => {
   const joinnames = (names) => {
     const last = names.pop();
