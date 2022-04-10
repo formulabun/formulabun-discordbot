@@ -11,7 +11,7 @@ export class FormulaBunBotBase extends Client {
         return channel.send(msg);
       })
       .then((message) => {
-        console.log(`message send ${message}`);
+        console.log(`message send ${message} to channes ${channel}`);
       })
       .catch((e) => {
         console.error(e);

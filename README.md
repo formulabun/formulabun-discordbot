@@ -6,8 +6,8 @@
 * generic help
 
 ## getting started
-* clone this repository with `git clone --recurse-submodules <url>`
+* clone this repository with `git clone`
 * copy the `env.template` file to `.env`
 * fill in the variables in `.env`
 * run `npm install`
-* run `node main`
+* run `npm run main`
