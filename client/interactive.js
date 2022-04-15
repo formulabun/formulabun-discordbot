@@ -67,9 +67,8 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
 
   set error(err) {
     if (!this.readyAt) return;
-    this.user.setActivity("for a heartbeat", { type: "LISTENING" }).then(() => {
-      this.user.setStatus("dnd");
-    });
+    this.user.setActivity('for a heartbeat', { type: 'LISTENING' });
+    this.user.setStatus('dnd');
   }
 
   async respond(interaction) {
