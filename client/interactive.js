@@ -9,8 +9,8 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     super(param);
     this.players = {};
     this.server = {};
-    this.on('ready', () => {
-      this.registercommands();
+    this.on('ready', async () => {
+      await this.registercommands();
       this.on('interactionCreate', (interaction) => {
         if (interaction.isCommand()) {
           this.respond(interaction);
@@ -19,34 +19,30 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     });
   }
 
-  registercommands() {
+  async registercommands() {
     for (let c in commands) {
       if (commands.hasOwnProperty(c)) {
-        let guild,
-          application = this.api.applications(this.user.id);
-
+        let commandsObject;
         switch (process.env.DISCORDBOT_ENV) {
-          case "test":
-            guild = application.guilds(TEST_GUILD);
+          case 'test':
+            commandsObject = this.application.commands;
             break;
-          case "deploy":
-            guild = application;
+          case 'deploy':
+            commandsObject = (await this.guilds.fetch(TEST_GUILD)).commands;
             break;
           default:
-            throw "DISCORDBOT_ENV not set, possible values: test, deploy.";
+            throw 'DISCORDBOT_ENV not set, possible values: test, deploy.';
         }
 
-        guild.commands
-          .post({
-            data: {
-              name: c,
-              description: commands[c].descr,
-            },
-          })
-          .then(() => {
-            console.log(`registered ${c}`);
-          })
-          .catch(console.error);
+        try {
+          await commandsObject.create({
+            name: c,
+            description: commands[c].descr,
+          });
+          console.log(`resistered ${c}`);
+        } catch (err) {
+          console.error(err);
+        }
       }
     }
   }
