@@ -25,10 +25,10 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
         let commandsObject;
         switch (process.env.DISCORDBOT_ENV) {
           case 'test':
-            commandsObject = this.application.commands;
+            commandsObject = (await this.guilds.fetch(TEST_GUILD)).commands;
             break;
           case 'deploy':
-            commandsObject = (await this.guilds.fetch(TEST_GUILD)).commands;
+            commandsObject = this.application.commands;
             break;
           default:
             throw 'DISCORDBOT_ENV not set, possible values: test, deploy.';
