@@ -1,6 +1,7 @@
 import { FormulaBunBotBase } from './base.js';
 import { config } from "dotenv";
 import commands from "./commands.js";
+import { CommandInteraction } from 'discord.js';
 const env = config().parsed;
 const { TEST_GUILD } = config().parsed;
 
@@ -71,6 +72,10 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     this.user.setStatus('dnd');
   }
 
+  /**
+   * Responds to a command interaction.
+   * @param {CommandInteraction} interaction Interaction object created from the command.
+   */
   async respond(interaction) {
     const command = interaction.commandName;
 
