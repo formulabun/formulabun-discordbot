@@ -1,6 +1,7 @@
 import { FormulaBunBotBase } from './base.js';
 import { config } from "dotenv";
 import commands from "./commands.js";
+import { CommandInteraction } from 'discord.js';
 const env = config().parsed;
 const { TEST_GUILD } = config().parsed;
 
@@ -9,42 +10,40 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     super(param);
     this.players = {};
     this.server = {};
-    this.on("ready", () => {
-      this.registercommands();
-      this.ws.on("INTERACTION_CREATE", (interaction) =>
-        this.respond(interaction)
-      );
+    this.on('ready', async () => {
+      await this.registercommands();
+      this.on('interactionCreate', (interaction) => {
+        if (interaction.isCommand()) {
+          this.respond(interaction);
+        }
+      });
     });
   }
 
-  registercommands() {
+  async registercommands() {
     for (let c in commands) {
       if (commands.hasOwnProperty(c)) {
-        let guild,
-          application = this.api.applications(this.user.id);
-
+        let commandsObject;
         switch (process.env.DISCORDBOT_ENV) {
-          case "test":
-            guild = application.guilds(TEST_GUILD);
+          case 'test':
+            commandsObject = (await this.guilds.fetch(TEST_GUILD)).commands;
             break;
-          case "deploy":
-            guild = application;
+          case 'deploy':
+            commandsObject = this.application.commands;
             break;
           default:
-            throw "DISCORDBOT_ENV not set, possible values: test, deploy.";
+            throw 'DISCORDBOT_ENV not set, possible values: test, deploy.';
         }
 
-        guild.commands
-          .post({
-            data: {
-              name: c,
-              description: commands[c].descr,
-            },
-          })
-          .then(() => {
-            console.log(`registered ${c}`);
-          })
-          .catch(console.error);
+        try {
+          await commandsObject.create({
+            name: c,
+            description: commands[c].descr,
+          });
+          console.log(`resistered ${c}`);
+        } catch (err) {
+          console.error(err);
+        }
       }
     }
   }
@@ -53,13 +52,13 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     if (!this.readyAt) return;
     this.server.serverinfo = serverinfo;
     const stat = `${serverinfo.numberofplayers} players race`;
-    this.user
-      .setActivity(stat, { type: "WATCHING" })
-      .then(() => {
-        if (serverinfo.numberofplayers === 0) this.user.setStatus("idle");
-        else this.user.setStatus("online");
-      })
-      .catch(console.error);
+    try {
+      this.user.setActivity(stat, { type: 'WATCHING' });
+      if (serverinfo.numberofplayers === 0) this.user.setStatus('idle');
+      else this.user.setStatus('online');
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   set playerinfo(playerinfo) {
@@ -69,36 +68,38 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
 
   set error(err) {
     if (!this.readyAt) return;
-    this.user.setActivity("for a heartbeat", { type: "LISTENING" }).then(() => {
-      this.user.setStatus("dnd");
-    });
+    this.user.setActivity('for a heartbeat', { type: 'LISTENING' });
+    this.user.setStatus('dnd');
   }
 
-  respond(interaction) {
-    const command = interaction.data.name;
+  /**
+   * Responds to a command interaction.
+   * @param {CommandInteraction} interaction Interaction object created from the command.
+   */
+  async respond(interaction) {
+    const command = interaction.commandName;
 
     if (!this.server.serverinfo || !this.server.playerinfo) {
       return;
     }
 
     if (commands[command]) {
+      await interaction.deferReply();
+
       const response = commands[command].respond(this.server);
 
-      this.api.interactions(interaction.id, interaction.token).callback.post({
-        data: {
-          type: 4,
-          data: {
-            content: response.content,
-            embeds: response.embed,
-          },
-        },
+      await interaction.editReply({
+        content: response.content,
+        embeds: response.embed,
       });
     }
   }
 }
 
 export default async function login() {
-  const client = new FormulaBunBotInteracive();
+  const client = new FormulaBunBotInteracive({
+    intents: [],
+  });
   await client.login(env.DISCORD_TOKEN);
   return client;
 }

@@ -23,12 +23,13 @@
   "dependencies": {
     "better-sqlite3": "^7.4.5",
     "cross-env": "^7.0.3",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.6.0",
     "dotenv": "^9.0.2",
-    "fs": "0.0.1-security",
-    "prettier": "^2.5.1",
     "random": "^3.0.6",
     "sqlite3": "^4.2.0",
     "srb2kartjs": "^2.1.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.6.2"
   }
 }
