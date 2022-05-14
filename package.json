@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "deploy": "cross-env DISCORDBOT_ENV=deploy node main.js",
-    "test": "cross-env DISCORDBOT_ENV=test node main.js",
+    "test": "cross-env DISCORDBOT_ENV=test nodemon main.js",
     "lint": "prettier --write *.js",
     "linttest": "prettier -c *.js"
   },
@@ -21,13 +21,15 @@
   },
   "homepage": "https://github.com/formulabun/formulabun-discordbot#readme",
   "dependencies": {
+    "@discordjs/builders": "^0.13.0",
     "better-sqlite3": "^7.4.5",
     "cross-env": "^7.0.3",
     "discord.js": "^13.6.0",
     "dotenv": "^9.0.2",
+    "node-fetch": "^3.2.4",
     "random": "^3.0.6",
     "sqlite3": "^4.2.0",
-    "srb2kartjs": "^2.1.2"
+    "srb2kartjs": "^2.2.9"
   },
   "devDependencies": {
     "prettier": "^2.6.2"

@@ -3,52 +3,13 @@ import { config } from "dotenv";
 const { SERVER } = config().parsed;
 import { MessageEmbed } from "discord.js";
 
-const playerresponse = (players, spectator) => {
-  const joinnames = (names) => {
-    const last = names.pop();
-    const init = names.join(", ");
-    if (!init) return last;
-    return `${init} and ${last}`;
-  };
+import maplookup from "./mapcommand.js";
+import players from "./playerscommand.js";
 
-  let p_response = "";
-  if (players.length === 1) p_response = `${players[0]} is lonely.`;
-  else if (players.length > 1) {
-    p_response = `${joinnames(players)} are racing.`;
-  }
-  let s_response = "";
-  if (spectator.length === 1) {
-    s_response = `${joinnames(spectator)} is watching.`;
-  } else if (spectator.length >= 1) {
-    s_response = `${joinnames(spectator)} are watching.`;
-  }
-  if (!s_response && !p_response) {
-    return "*cricket noises*";
-  }
-  return `${p_response} ${s_response}`.trim();
-};
-
-const players = {
-  descr: "show current players in the server",
-  respond: (server) => {
-    const playerfiltermap = (players, filter) => {
-      return players.filter(filter).map((p) => p.name);
-    };
-    const players = playerfiltermap(
-      server.playerinfo.playerinfo,
-      (p) => !p.spectator
-    );
-    const spectators = playerfiltermap(
-      server.playerinfo.playerinfo,
-      (p) => p.spectator
-    );
-    return { content: playerresponse(players, spectators) };
-  },
-};
 
 const joinfbun = {
   descr: "explain how to join this epic server",
-  respond: () => {
+  respond: async () => {
     return {
       embed: [
         new MessageEmbed()
@@ -76,4 +37,16 @@ and join the server by opening the console with using the \\\` key and enter \`j
   },
 };
 
-export default { players, joinfbun };
+const prayers = {
+  descr: "prayers",
+  respond: () => {
+    return {content: ":pray:"}
+  }
+}
+
+export default {
+  players,
+  joinfbun,
+  prayers,
+  maplookup
+};

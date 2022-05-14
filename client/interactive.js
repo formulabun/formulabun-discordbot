@@ -39,6 +39,7 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
           await commandsObject.create({
             name: c,
             description: commands[c].descr,
+            options: commands[c].options || []
           });
           console.log(`resistered ${c}`);
         } catch (err) {
@@ -86,7 +87,7 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     if (commands[command]) {
       await interaction.deferReply();
 
-      const response = commands[command].respond(this.server);
+      const response = await commands[command].respond(this.server, interaction.options);
 
       await interaction.editReply({
         content: response.content,

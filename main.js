@@ -22,4 +22,4 @@ setInterval(() => {
   );
 }, parseInt(INTERVAL));
 
-process.on("exit", () => client.detroy());
+process.on("SIGINT", () => {console.log("goodbye"); client.detroy()});
