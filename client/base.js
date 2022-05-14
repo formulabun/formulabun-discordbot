@@ -19,10 +19,8 @@ export class FormulaBunBotBase extends Client {
       });
   }
 
-  sendMessageToMultiple(msg, channels=[]) {
-    return Promise.all(channels.map((c) =>
-      this.sendMessage(msg, c))
-    );
+  sendMessageToMultiple(msg, channels = []) {
+    return Promise.all(channels.map((c) => this.sendMessage(msg, c)));
   }
 }
 

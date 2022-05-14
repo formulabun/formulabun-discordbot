@@ -4,7 +4,7 @@ import { config } from "dotenv";
 const { DISCORD_TOKEN, SERVER, PORT, INTERVAL } = config().parsed;
 import { getSrb2Info } from "srb2kartjs";
 
-const client = await login()
+const client = await login();
 
 setInterval(() => {
   getSrb2Info(
@@ -22,4 +22,7 @@ setInterval(() => {
   );
 }, parseInt(INTERVAL));
 
-process.on("SIGINT", () => {console.log("goodbye"); client.detroy()});
+process.on("SIGINT", () => {
+  console.log("goodbye");
+  client.detroy();
+});

@@ -7,8 +7,8 @@
   "scripts": {
     "deploy": "cross-env DISCORDBOT_ENV=deploy node main.js",
     "test": "cross-env DISCORDBOT_ENV=test nodemon main.js",
-    "lint": "prettier --write *.js",
-    "linttest": "prettier -c *.js"
+    "lint": "prettier --write *.js client/*.js",
+    "linttest": "prettier -c *.js client/*.js"
   },
   "repository": {
     "type": "git",

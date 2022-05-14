@@ -1,6 +1,7 @@
-import {idToMap} from "./maplookup.js";
+import { Util } from "discord.js";
+import { idToMap } from "./maplookup.js";
 
-const playerresponse = (players, spectator, {fullname}) => {
+const playerresponse = (players, spectator, { fullname }) => {
   const joinnames = (names) => {
     const last = names.pop();
     const init = names.join(", ");
@@ -47,6 +48,9 @@ export default {
       (p) => p.spectator
     );
     const mapdata = await idToMap(server.serverinfo.mapname);
-    return { content: playerresponse(players, spectators, mapdata) };
+    let response = playerresponse(players, spectators, mapdata);
+    response = Util.escapeMarkdown(response);
+    response = Util.cleanContent(response);
+    return { content: response };
   },
 };

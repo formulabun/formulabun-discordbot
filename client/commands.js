@@ -6,7 +6,6 @@ import { MessageEmbed } from "discord.js";
 import maplookup from "./mapcommand.js";
 import players from "./playerscommand.js";
 
-
 const joinfbun = {
   descr: "explain how to join this epic server",
   respond: async () => {
@@ -40,13 +39,13 @@ and join the server by opening the console with using the \\\` key and enter \`j
 const prayers = {
   descr: "prayers",
   respond: () => {
-    return {content: ":pray:"}
-  }
-}
+    return { content: ":pray:" };
+  },
+};
 
 export default {
   players,
   joinfbun,
   prayers,
-  maplookup
+  maplookup,
 };

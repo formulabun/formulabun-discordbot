@@ -1,7 +1,7 @@
-import { FormulaBunBotBase } from './base.js';
+import { FormulaBunBotBase } from "./base.js";
 import { config } from "dotenv";
 import commands from "./commands.js";
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction } from "discord.js";
 const env = config().parsed;
 const { TEST_GUILD } = config().parsed;
 
@@ -10,9 +10,9 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     super(param);
     this.players = {};
     this.server = {};
-    this.on('ready', async () => {
+    this.on("ready", async () => {
       await this.registercommands();
-      this.on('interactionCreate', (interaction) => {
+      this.on("interactionCreate", (interaction) => {
         if (interaction.isCommand()) {
           this.respond(interaction);
         }
@@ -25,21 +25,21 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
       if (commands.hasOwnProperty(c)) {
         let commandsObject;
         switch (process.env.DISCORDBOT_ENV) {
-          case 'test':
+          case "test":
             commandsObject = (await this.guilds.fetch(TEST_GUILD)).commands;
             break;
-          case 'deploy':
+          case "deploy":
             commandsObject = this.application.commands;
             break;
           default:
-            throw 'DISCORDBOT_ENV not set, possible values: test, deploy.';
+            throw "DISCORDBOT_ENV not set, possible values: test, deploy.";
         }
 
         try {
           await commandsObject.create({
             name: c,
             description: commands[c].descr,
-            options: commands[c].options || []
+            options: commands[c].options || [],
           });
           console.log(`resistered ${c}`);
         } catch (err) {
@@ -54,9 +54,9 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     this.server.serverinfo = serverinfo;
     const stat = `${serverinfo.numberofplayers} players race`;
     try {
-      this.user.setActivity(stat, { type: 'WATCHING' });
-      if (serverinfo.numberofplayers === 0) this.user.setStatus('idle');
-      else this.user.setStatus('online');
+      this.user.setActivity(stat, { type: "WATCHING" });
+      if (serverinfo.numberofplayers === 0) this.user.setStatus("idle");
+      else this.user.setStatus("online");
     } catch (err) {
       console.error(err);
     }
@@ -69,8 +69,8 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
 
   set error(err) {
     if (!this.readyAt) return;
-    this.user.setActivity('for a heartbeat', { type: 'LISTENING' });
-    this.user.setStatus('dnd');
+    this.user.setActivity("for a heartbeat", { type: "LISTENING" });
+    this.user.setStatus("dnd");
   }
 
   /**
@@ -87,11 +87,17 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     if (commands[command]) {
       await interaction.deferReply();
 
-      const response = await commands[command].respond(this.server, interaction.options);
+      const response = await commands[command].respond(
+        this.server,
+        interaction.options
+      );
 
       await interaction.editReply({
         content: response.content,
         embeds: response.embed,
+        allowedMentions: {
+          parse: [],
+        },
       });
     }
   }
