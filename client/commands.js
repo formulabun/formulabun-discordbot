@@ -14,7 +14,7 @@ const joinfbun = {
         .setColor("#ffcece")
         .setTitle("Joining Formula bun")
         .setURL(`http://${SERVER}`)
-        .setImage("http://formulabun.club/fastbun.png")
+        .setImage("https://formulabun.club/images/fastbun.png")
         .addField(
           "Option one:",
           `type \`${SERVER}\` into the **join a game** field`
