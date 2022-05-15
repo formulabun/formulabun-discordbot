@@ -32,8 +32,9 @@ const playerresponse = (players, spectator, { fullname }) => {
   else if (!p_response) {
     response = `${s_response} an empty ${fullname}. They might need a friend.`;
   }
-  else
+  else {
    response = `${p_response} on ${fullname}. ${s_response}.`.trim();
+  }
   response = response.replaceAll(":", "\\:")
   return Util.escapeMarkdown(response);
 };
