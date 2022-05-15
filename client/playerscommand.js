@@ -1,4 +1,4 @@
-import { Util } from "discord.js";
+import { Util, Formatters } from "discord.js";
 import { idToMap } from "./maplookup.js";
 
 const playerresponse = (players, spectator, { fullname }) => {
@@ -22,15 +22,19 @@ const playerresponse = (players, spectator, { fullname }) => {
     s_response = `${joinnames(spectator)} are watching`;
   }
   if (!s_response && !p_response) {
-    return "*cricket noises*";
+    return `:cricket: ${Formatters.italic("cricket noises")} :cricket:`;
   }
+
+  let response;
   if (!s_response) {
-    return `${p_response} on ${fullname}.`;
+    response = `${p_response} on ${fullname}.`;
   }
-  if (!p_response) {
-    return `${s_response} an empty ${fullname}. They might need a friend.`;
+  else if (!p_response) {
+    response = `${s_response} an empty ${fullname}. They might need a friend.`;
   }
-  return `${p_response} on ${fullname}. ${s_response}.`.trim();
+  else
+   response = `${p_response} on ${fullname}. ${s_response}.`.trim();
+  return Util.escapeMarkdown(response);
 };
 
 export default {
@@ -47,10 +51,18 @@ export default {
       server.playerinfo.playerinfo,
       (p) => p.spectator
     );
-    const mapdata = await idToMap(server.serverinfo.mapname);
-    let response = playerresponse(players, spectators, mapdata);
-    response = Util.escapeMarkdown(response);
-    response = Util.cleanContent(response);
-    return { content: response };
+    let mapdata;
+    try {
+      mapdata = await idToMap(server.serverinfo.mapname);
+    }
+    catch {
+      mapdata = {fullname:"a map"};
+    }
+    finally {
+      let response = playerresponse(players, spectators, mapdata);
+      response = response.replace(":", "\\:")
+      response = Util.cleanContent(response);
+      return { content: response };
+    }
   },
 };
