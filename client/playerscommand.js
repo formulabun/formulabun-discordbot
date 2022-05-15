@@ -34,6 +34,7 @@ const playerresponse = (players, spectator, { fullname }) => {
   }
   else
    response = `${p_response} on ${fullname}. ${s_response}.`.trim();
+  response = response.replaceAll(":", "\\:")
   return Util.escapeMarkdown(response);
 };
 
@@ -60,7 +61,6 @@ export default {
     }
     finally {
       let response = playerresponse(players, spectators, mapdata);
-      response = response.replace(":", "\\:")
       response = Util.cleanContent(response);
       return { content: response };
     }
