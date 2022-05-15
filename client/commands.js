@@ -6,16 +6,15 @@ import { MessageEmbed } from "discord.js";
 import maplookup from "./mapcommand.js";
 import players from "./playerscommand.js";
 
-const joinfbun = {
+const join = {
   descr: "explain how to join this epic server",
   respond: async () => {
     return {
       embed: [
         new MessageEmbed()
           .setColor("#ffcece")
-          .setTitle("Joining Formula bun")
+          .setTitle("Joining this server")
           .setURL(`http://${SERVER}`)
-          .setImage("http://formulabun.club/fastbun.png")
           .addField(
             "Option one:",
             `type \`${SERVER}\` into the **join a game** field`
@@ -36,16 +35,8 @@ and join the server by opening the console with using the \\\` key and enter \`j
   },
 };
 
-const prayers = {
-  descr: "prayers",
-  respond: () => {
-    return { content: ":pray:" };
-  },
-};
-
 export default {
   players,
-  joinfbun,
-  prayers,
+  join,
   maplookup,
 };
