@@ -103,9 +103,9 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
   }
 }
 
-export default async function login() {
+export default async function login(intents=[]) {
   const client = new FormulaBunBotInteracive({
-    intents: [],
+    intents,
   });
   await client.login(env.DISCORD_TOKEN);
   return client;
