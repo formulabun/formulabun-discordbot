@@ -24,9 +24,9 @@ export class FormulaBunBotBase extends Client {
   }
 }
 
-export default async function login() {
+export default async function login(intents=[]) {
   const client = new FormulaBunBotBase({
-    intents: [],
+    intents,
   });
   await client.login(env.DISCORD_TOKEN);
   return client;
