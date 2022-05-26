@@ -1,6 +1,8 @@
 import { Client } from "discord.js";
 import { config } from "dotenv";
-const env = config().parsed;
+const {
+  discord_token
+}= config().parsed;
 
 export class FormulaBunBotBase extends Client {
   sendMessage(msg, channel) {
@@ -28,6 +30,6 @@ export default async function login(intents=[]) {
   const client = new FormulaBunBotBase({
     intents,
   });
-  await client.login(env.DISCORD_TOKEN);
+  await client.login(discord_token);
   return client;
 }

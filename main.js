@@ -1,15 +1,20 @@
 import login from "./client/interactive.js";
 //import login from "./client/base.js";
 import { config } from "dotenv";
-const { DISCORD_TOKEN, SERVER, PORT, INTERVAL } = config().parsed;
+const {
+  discord_token,
+  website,
+  kart_port,
+  discordbot_update_interval
+} = config().parsed;
 import { getSrb2Info } from "srb2kartjs";
 
 const client = await login();
 
 setInterval(() => {
   getSrb2Info(
-    SERVER,
-    PORT,
+    website,
+    kart_port,
     (info) => {
       client.serverinfo = info;
     },
@@ -20,7 +25,7 @@ setInterval(() => {
       client.error = error;
     }
   );
-}, parseInt(INTERVAL));
+}, parseInt(discordbot_update_interval));
 
 process.on("SIGINT", () => {
   console.log("goodbye");

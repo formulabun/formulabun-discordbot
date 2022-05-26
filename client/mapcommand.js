@@ -1,5 +1,10 @@
 import { idToMap, searchMaps } from "./maplookup.js";
 import { MessageEmbed } from "discord.js";
+import { config } from "dotenv";
+const {
+  discordbot_env,
+  api_server
+} = config().parsed;
 import {
   TooManyMapsError,
   MapNotFoundError,
@@ -16,8 +21,9 @@ async function searchMapWithId(id) {
 
 async function searchMapWithQuery(query) {
   const mapDatas = await searchMaps(query);
-  if (mapDatas.length == 0) throw new MapNotFoundError();
-  if (mapDatas.length < 3) return mapDatas[0];
+  if (mapDatas.length === 0) throw new MapNotFoundError();
+  if (mapDatas.length === 1) return mapDatas[0];
+  if (mapDatas.length < 25) return mapDatas;
   throw new TooManyMapsError();
 }
 
@@ -30,10 +36,24 @@ function errorResponse(string) {
   return { content: string };
 }
 
-function makeEmbed(mapData) {
+function makeListEmbed(mapsData) {
+  let response = new MessageEmbed()
+    .setTitle("I found a bunch of maps!")
+    .setDescription("Are any of these the map you're looking for?")
+    .setColor("#ffcece");
+  for (let {mapid, fullname} of mapsData) {
+    response.addField(`map${mapid}`, fullname, true);
+  }
+  return { embed: [response] };
+}
+
+function makeSingleEmbed(mapData) {
   const { mapid, fullname, thumbnail, hidden, typeoflevel, numlaps, mappack } =
     mapData;
-  let thum = thumbnail.replace("localhost:3030", "api.formulabun.club");
+
+  let thum = thumbnail;
+  if (discordbot_env === "test")
+    thum = thumbnail.replace("localhost:3030", api_server);
   let response = new MessageEmbed()
     .setColor("#ffcece")
     .setTitle(fullname)
@@ -47,6 +67,13 @@ function makeEmbed(mapData) {
     response.addField("number of laps", `${numlaps}`);
   response.addField("map pack", mappack);
   return { embed: [response] };
+}
+
+function makeEmbed(mapData) {
+  if( Array.isArray(mapData) )
+    return makeListEmbed(mapData);
+  else
+    return makeSingleEmbed(mapData);
 }
 
 export default {

@@ -1,9 +1,12 @@
 import { FormulaBunBotBase } from "./base.js";
-import { config } from "dotenv";
 import commands from "./commands.js";
 import { CommandInteraction } from "discord.js";
-const env = config().parsed;
-const { TEST_GUILD } = config().parsed;
+import { config } from "dotenv";
+const {
+  discord_token,
+} = config().parsed;
+const discordbot_env = process.env.discordbot_env
+const { test_guild } = config().parsed;
 
 export class FormulaBunBotInteracive extends FormulaBunBotBase {
   constructor(param) {
@@ -12,9 +15,9 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     this.server = {};
     this.on("ready", async () => {
       await this.registercommands();
-      this.on("interactionCreate", (interaction) => {
+      this.on("interactionCreate", async (interaction) => {
         if (interaction.isCommand()) {
-          this.respond(interaction);
+          await this.respond(interaction);
         }
       });
     });
@@ -24,15 +27,15 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
     for (let c in commands) {
       if (commands.hasOwnProperty(c)) {
         let commandsObject;
-        switch (process.env.DISCORDBOT_ENV) {
+        switch (discordbot_env) {
           case "test":
-            commandsObject = (await this.guilds.fetch(TEST_GUILD)).commands;
+            commandsObject = (await this.guilds.fetch(test_guild)).commands;
             break;
           case "deploy":
             commandsObject = this.application.commands;
             break;
           default:
-            throw "DISCORDBOT_ENV not set, possible values: test, deploy.";
+            throw "discordbot_env not set, possible values: test, deploy.";
         }
 
         try {
@@ -41,7 +44,7 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
             description: commands[c].descr,
             options: commands[c].options || [],
           });
-          console.log(`resistered ${c}`);
+          console.log(`registered ${c}`);
         } catch (err) {
           console.error(err);
         }
@@ -52,10 +55,17 @@ export class FormulaBunBotInteracive extends FormulaBunBotBase {
   set serverinfo(serverinfo) {
     if (!this.readyAt) return;
     this.server.serverinfo = serverinfo;
-    const stat = `${serverinfo.numberofplayers} players race`;
+    const numPlayers = serverinfo.numberofplayers;
+
+    let stat;
+    if (numPlayers === 1)
+      stat = `${numPlayers} player race`;
+    else
+      stat = `${numPlayers} players race`;
+
     try {
       this.user.setActivity(stat, { type: "WATCHING" });
-      if (serverinfo.numberofplayers === 0) this.user.setStatus("idle");
+      if (numPlayers === 0) this.user.setStatus("idle");
       else this.user.setStatus("online");
     } catch (err) {
       console.error(err);
@@ -107,6 +117,6 @@ export default async function login(intents=[]) {
   const client = new FormulaBunBotInteracive({
     intents,
   });
-  await client.login(env.DISCORD_TOKEN);
+  await client.login(discord_token);
   return client;
 }
