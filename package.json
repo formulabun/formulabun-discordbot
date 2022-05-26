@@ -5,8 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "deploy": "cross-env DISCORDBOT_ENV=deploy node main.js",
-    "test": "cross-env DISCORDBOT_ENV=test nodemon main.js",
+    "deploy": "cross-env discordbot_env=deploy node main.js",
+    "test": "cross-env discordbot_env=test nodemon main.js",
     "lint": "prettier --write *.js client/*.js",
     "linttest": "prettier -c *.js client/*.js"
   },

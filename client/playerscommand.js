@@ -11,10 +11,11 @@ const playerresponse = (players, spectator, { fullname }) => {
 
   let p_response = "";
   if (players.length === 1)
-    p_response = `${players[0]} probably doing record attack`;
+    p_response = `${players[0]} is probably doing record attack`;
   else if (players.length > 1) {
     p_response = `${joinnames(players)} are racing`;
   }
+
   let s_response = "";
   if (spectator.length === 1) {
     s_response = `${joinnames(spectator)} is watching`;
@@ -29,8 +30,11 @@ const playerresponse = (players, spectator, { fullname }) => {
   if (!s_response) {
     response = `${p_response} on ${fullname}.`;
   }
-  else if (!p_response) {
+  else if (!p_response && players.length === 1) {
     response = `${s_response} an empty ${fullname}. They might need a friend.`;
+  }
+  else if (!p_response) {
+    response = `${s_response} an empty ${fullname}. Maybe they're taking a break.`;
   }
   else {
    response = `${p_response} on ${fullname}. ${s_response}.`.trim();
