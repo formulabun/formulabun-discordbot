@@ -3,7 +3,7 @@ import { config } from "dotenv";
 const {
   website
 } = config().parsed;
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import maplookup from "./mapcommand.js";
 import players from "./playerscommand.js";
@@ -12,7 +12,7 @@ const joinfbun = {
   respond: async () => {
     return {
       embed: [
-        new MessageEmbed()
+        new EmbedBuilder()
         .setColor("#ffcece")
         .setTitle("Joining Formula bun")
         .setURL(`http://${website}`)

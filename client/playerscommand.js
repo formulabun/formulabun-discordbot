@@ -1,4 +1,4 @@
-import { Util, Formatters } from "discord.js";
+import { cleanContent, escapeMarkdown, Formatters } from "discord.js";
 import { idToMap } from "./maplookup.js";
 
 const playerresponse = (players, spectator, { fullname }) => {
@@ -40,7 +40,7 @@ const playerresponse = (players, spectator, { fullname }) => {
    response = `${p_response} on ${fullname}. ${s_response}.`.trim();
   }
   response = response.replaceAll(":", "\\:")
-  return Util.escapeMarkdown(response);
+  return escapeMarkdown(response);
 };
 
 export default {
@@ -66,7 +66,7 @@ export default {
     }
     finally {
       let response = playerresponse(players, spectators, mapdata);
-      response = Util.cleanContent(response);
+      response = cleanContent(response);
       return { content: response };
     }
   },

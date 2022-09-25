@@ -27,7 +27,9 @@ setInterval(() => {
   );
 }, parseInt(discordbot_update_interval));
 
+client.on('debug', console.log)
+
 process.on("SIGINT", () => {
   console.log("goodbye");
-  client.detroy();
+  client.destroy();
 });

@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, ChannelType } from "discord.js";
 import { config } from "dotenv";
 const {
   discord_token
@@ -9,7 +9,7 @@ export class FormulaBunBotBase extends Client {
     return this.channels
       .fetch(channel)
       .then((channel) => {
-        if (!channel.isText()) throw new Error("not a text channel");
+        if (channel.type != ChannelType.GuildText) throw new Error("not a text channel");
         return channel.send(msg);
       })
       .then((message) => {

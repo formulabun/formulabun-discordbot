@@ -1,5 +1,5 @@
 import { idToMap, searchMaps } from "./maplookup.js";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType} from "discord.js";
 import { config } from "dotenv";
 const {
   discordbot_env,
@@ -37,7 +37,7 @@ function errorResponse(string) {
 }
 
 function makeListEmbed(mapsData) {
-  let response = new MessageEmbed()
+  let response = new EmbedBuilder()
     .setTitle("I found a bunch of maps!")
     .setDescription("Are any of these the map you're looking for?")
     .setColor("#ffcece");
@@ -54,7 +54,7 @@ function makeSingleEmbed(mapData) {
   let thum = thumbnail;
   if (discordbot_env === "test")
     thum = thumbnail.replace("localhost:3030", api_server);
-  let response = new MessageEmbed()
+  let response = new EmbedBuilder()
     .setColor("#ffcece")
     .setTitle(fullname)
     .setImage(thum);
@@ -82,26 +82,26 @@ export default {
     {
       name: MAPIDSTRING,
       description: "search by id",
-      type: "SUB_COMMAND",
+      type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
           name: MAPIDSTRING,
           description: "map id",
           required: true,
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
         },
       ],
     },
     {
       name: QUERYSTRING,
       description: "search by query string",
-      type: "SUB_COMMAND",
+      type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
           name: QUERYSTRING,
           description: "search query",
           required: true,
-          type: "STRING",
+          type: ApplicationCommandOptionType.String,
         },
       ],
     },
